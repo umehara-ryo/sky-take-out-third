@@ -98,7 +98,7 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
-    @GetMapping("/employee/{id}")
+    @GetMapping("/{id}")
     @ApiOperation("社員検索")
     public Result<Employee> getById(@PathVariable Long id){
 
@@ -115,6 +115,16 @@ public class EmployeeController {
 
         log.info("状態変更{},{}",status,id);
         employeeService.setStatus(status,id);
+
+        return Result.success();
+    }
+
+    @PutMapping()
+    @ApiOperation("社員情報変更")
+    public Result setStatus(@RequestBody EmployeeDTO employeeDTO){
+
+        log.info("社員情報変更{},{}",employeeDTO);
+        employeeService.update(employeeDTO);
 
         return Result.success();
     }
