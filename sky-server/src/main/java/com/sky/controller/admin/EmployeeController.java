@@ -98,5 +98,24 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    @GetMapping("/employee/{id}")
+    @ApiOperation("社員検索")
+    public Result<Employee> getById(@PathVariable Long id){
 
+        log.info("社員検索",id);
+        Employee employee = employeeService.getById(id);
+
+        return Result.success(employee);
+    }
+
+
+    @PostMapping("/status/{status}")
+    @ApiOperation("状態変更")
+    public Result setStatus(@PathVariable Integer status,Long id){
+
+        log.info("状態変更{},{}",status,id);
+        employeeService.setStatus(status,id);
+
+        return Result.success();
+    }
 }
