@@ -8,6 +8,8 @@ import com.sky.result.Result;
 import com.sky.service.EmployeeService;
 import com.sky.utils.JwtUtil;
 import com.sky.vo.EmployeeLoginVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 员工管理
+ * 社員管理
  */
 @RestController
 @RequestMapping("/admin/employee")
+@Api(tags = "社員関連業務")
 @Slf4j
 public class EmployeeController {
 
@@ -32,18 +35,19 @@ public class EmployeeController {
     private JwtProperties jwtProperties;
 
     /**
-     * 登录
+     *　ログイン
      *
      * @param employeeLoginDTO
      * @return
      */
     @PostMapping("/login")
+    @ApiOperation(value = "社員ログイン")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
-        log.info("员工登录：{}", employeeLoginDTO);
+        log.info("社員ログイン：{}", employeeLoginDTO);
 
         Employee employee = employeeService.login(employeeLoginDTO);
 
-        //登录成功后，生成jwt令牌
+        //ログインしたら、jwtトークンを生成する
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
         String token = JwtUtil.createJWT(
@@ -62,12 +66,14 @@ public class EmployeeController {
     }
 
     /**
-     * 退出
+     * ログアウト
      *
      * @return
      */
     @PostMapping("/logout")
+    @ApiOperation("社員ログアウト")
     public Result<String> logout() {
+
         return Result.success();
     }
 
